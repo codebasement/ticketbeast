@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+docker build -f app/Dockerfile -t jaga/app:latest ./app
+docker build -f node/Dockerfile -t jaga/node:latest ./node
