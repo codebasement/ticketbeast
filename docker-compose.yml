@@ -1,0 +1,49 @@
+version: '2'
+services:
+  app:
+    build:
+      context: ./docker/app
+      dockerfile: Dockerfile
+    image: jaga/app
+    volumes:
+     - .:/var/www/html
+    ports:
+     - "80:80"
+    networks:
+     - tbnet
+  node:
+    build:
+      context: ./docker/node
+      dockerfile: Dockerfile
+    image: jaga/node
+    volumes:
+     - .:/var/www/html
+    networks:
+     - tbnet
+  mysql:
+    image: mysql:5.7
+    ports:
+     - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "secret"
+      MYSQL_DATABASE: "homestead"
+      MYSQL_USER: "homestead"
+      MYSQL_PASSWORD: "secret"
+    volumes:
+     - mysqldata:/var/lib/mysql
+    networks:
+     - tbnet
+  redis:
+    image: redis:alpine
+    volumes:
+     - redisdata:/data
+    networks:
+     - tbnet
+networks:
+  tbnet:
+    driver: "bridge"
+volumes:
+  mysqldata:
+    driver: "local"
+  redisdata:
+    driver: "local"
