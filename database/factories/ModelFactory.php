@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -21,4 +23,19 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
     ];
+});
+
+$factory->define(App\Concert::class, function (Faker\Generator $faker) {
+	return [
+		'title' => 'Unit Test Band',
+        'subtitle' => 'with The Unit Support Solo',
+        'date' => Carbon::parse('+2 weeks'),
+        'ticket_price' => 30000,
+        'venue' => 'The Test Pit',
+        'venue_address' => '123 Example Lane',
+        'city' => 'Unitville',
+        'state' => 'ON',
+        'zip' => '90210',
+        'additional_information' => 'For all unit tests, call (555) 555-5555.',
+	];
 });
