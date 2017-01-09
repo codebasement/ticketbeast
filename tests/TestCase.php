@@ -1,7 +1,5 @@
 <?php
 
-use App\Exceptions\Handler;
-
 abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     /**
@@ -29,7 +27,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     {
         // Disable Laravel's default exception handling and 
         // allow exceptions to bubble up the stack  
-        $this->app->instance(ExceptionHandler::class, new class extends Handler {
+        $this->app->instance(ExceptionHandler::class, new class extends App\Exceptions\Handler {
             public function __construct() {}
             public function report(Exception $e) {}
             public function render($request, Exception $e) {
