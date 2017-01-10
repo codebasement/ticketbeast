@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Exceptions\NotEnoughTicketsException;
 
 class Concert extends Model
 {
@@ -42,9 +43,14 @@ class Concert extends Model
 
     public function orderTickets($email, $ticketQuantity)
     {
+        $tickets =  $this->tickets()->available()->take($ticketQuantity)->get();
+
+        if ($tickets->count() < $ticketQuantity) {
+            throw new NotEnoughTicketsException;
+        }
+
         // Creating the order
         $order = $this->orders()->create(['email' => $email]);
-        $tickets =  $this->tickets()->take($ticketQuantity)->get();
 
         foreach ($tickets as $ticket) {
             $order->tickets()->save($ticket);
@@ -63,6 +69,6 @@ class Concert extends Model
 
     public function ticketsRemaining()
     {
-        return $this->tickets()->whereNull('order_id')->count();
+        return $this->tickets()->available()->count();
     }
 }

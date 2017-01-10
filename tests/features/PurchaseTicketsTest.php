@@ -99,11 +99,11 @@ class PurchaseTicketsTest extends TestCase
         $this->orderTickets($concert, [
             'email' => 'testJohn@example.com',
             'ticket_quantity' => 51,
-            'payment_token' => 'invalid-payment-token',
+            'payment_token' => $this->paymentGateway->getValidTestToken(),
         ]);
 
         $this->assertResponseStatus(422);
-        $order = $concert->orders()-where('email', 'testJohn@example.com')->first();
+        $order = $concert->orders()->where('email', 'testJohn@example.com')->first();
         $this->assertNull($order);
         $this->assertEquals(0, $this->paymentGateway->totalCharges());
         $this->assertEquals(50, $concert->ticketsRemaining());
