@@ -29,9 +29,9 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         // allow exceptions to bubble up the stack  
         $this->app->instance(ExceptionHandler::class, new class extends App\Exceptions\Handler {
             public function __construct() {}
-            public function report(Exception $e) {}
-            public function render($request, Exception $e) {
-                throw $e;
+            public function report(Exception $exception) {}
+            public function render($request, Exception $exception) {
+                throw $exception;
             }
         });
     }
