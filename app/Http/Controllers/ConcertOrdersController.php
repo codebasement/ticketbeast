@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Order;
 use App\Concert;
 use Illuminate\Http\Request;
 use App\Billing\PaymentGateway;
@@ -29,7 +30,7 @@ class ConcertOrdersController extends Controller
 
         try {
 
-            // Find some tockets
+            // Find some tickets
             $tickets = $concert->findTickets(request('ticket_quantity'));
 
             // Charging the customer
@@ -39,7 +40,7 @@ class ConcertOrdersController extends Controller
             );
 
             // Creating the order
-            $order = $concert->createOrder(request('email'), $tickets);
+            $order = Order::forTickets($tickets, request('email'));
 
             return response()->json($order, 201);
 
