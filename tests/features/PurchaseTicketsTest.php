@@ -44,6 +44,7 @@ class PurchaseTicketsTest extends TestCase
 
         // Assert
         $this->assertResponseStatus(201);   // http response for created
+        
         $this->seeJsonSubset([
             'email' => 'john.feature@example.com',
             'ticket_quantity' => 3,
