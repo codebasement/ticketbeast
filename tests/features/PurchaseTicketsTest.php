@@ -105,6 +105,39 @@ class PurchaseTicketsTest extends TestCase
     }
 
     /** @test */
+    function cannot_purchase_tickets_another_customer_is_already_trying_to_purchase()
+    {
+        $this->disableExceptionHandling();
+        
+        $concert = factory(Concert::class)->states('published')->create([
+            'ticket_price' => 1200
+        ])->addTickets(3);
+
+        $this->paymentGateway->beforeFirstCharge(function ($paymentGateway) use ($concert) {
+            $this->orderTickets($concert, [
+                'email' => 'person.b.feature@example.com',
+                'ticket_quantity' => 1,
+                'payment_token' => $this->paymentGateway->getValidTestToken(),
+            ]);
+
+            $this->assertResponseStatus(422);
+            $this->assertFalse($concert->hasOrderFor('person.b.feature.feature@example.com'));
+            $this->assertEquals(0, $this->paymentGateway->totalCharges());
+
+        });
+
+        $this->orderTickets($concert, [
+            'email' => 'person.a.feature@example.com',
+            'ticket_quantity' => 3,
+            'payment_token' => $this->paymentGateway->getValidTestToken(),
+        ]);
+
+        $this->assertEquals(3600, $this->paymentGateway->totalCharges());
+        $this->assertTrue($concert->hasOrderFor('person.a.feature@example.com'));
+        $this->assertEquals(3, $concert->ordersFor('person.a.feature@example.com')->first()->ticketQuantity());
+    }
+
+    /** @test */
     function email_is_required_to_purchase_tickets()
     {
         $this->disableExceptionHandling();
