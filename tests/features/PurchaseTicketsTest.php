@@ -20,7 +20,9 @@ class PurchaseTicketsTest extends TestCase
 
     private function orderTickets($concert, $params)
     {
-        $this->json('POST', "/concerts/{$concert->id}/orders", $params);        
+        $savedRequest = $this->app['request'];
+        $this->json('POST', "/concerts/{$concert->id}/orders", $params);
+        $this->app['request'] = $savedRequest;
     }
 
     private function assertValidationError($field)
@@ -107,13 +109,12 @@ class PurchaseTicketsTest extends TestCase
     /** @test */
     function cannot_purchase_tickets_another_customer_is_already_trying_to_purchase()
     {
-        $this->disableExceptionHandling();
-        
         $concert = factory(Concert::class)->states('published')->create([
             'ticket_price' => 1200
         ])->addTickets(3);
 
         $this->paymentGateway->beforeFirstCharge(function ($paymentGateway) use ($concert) {
+
             $this->orderTickets($concert, [
                 'email' => 'person.b.feature@example.com',
                 'ticket_quantity' => 1,
@@ -140,8 +141,6 @@ class PurchaseTicketsTest extends TestCase
     /** @test */
     function email_is_required_to_purchase_tickets()
     {
-        $this->disableExceptionHandling();
-
         $concert = factory(Concert::class)->states('published')->create();
 
         $this->orderTickets($concert, [
