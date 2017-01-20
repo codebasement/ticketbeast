@@ -41,7 +41,7 @@ class ConcertOrdersController extends Controller
             );
 
             // Creating the order
-            $order = Order::forTickets($reservation->tickets(), $reservation->email(), $reservation->totalCost());
+            $order = $reservation->complete();
 
             return response()->json($order, 201);
 
