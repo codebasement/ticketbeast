@@ -1,0 +1,35 @@
+version: '2'
+services:
+  app:
+    extends:
+      file: docker-compose.base.yml
+      service: app
+    ports:
+     - "${APP_PORT}:80"
+  node:
+    extends:
+      file: docker-compose.base.yml
+      service: node
+  mysql:
+    extends:
+        file: docker-compose.base.yml
+        service: mysql
+    ports:
+     - "${DB_PORT}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASS}"
+      MYSQL_DATABASE: "${DB_NAME}"
+      MYSQL_USER: "${DB_USER}"
+      MYSQL_PASSWORD: "${DB_PASS}"
+  redis:
+    extends:
+      file: docker-compose.base.yml
+      service: redis
+networks:
+  tbnet:
+    driver: "bridge"
+volumes:
+  mysqldata:
+    driver: "local"
+  redisdata:
+    driver: "local"
