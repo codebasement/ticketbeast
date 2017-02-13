@@ -11,7 +11,7 @@
 |
 */
 Route::get('mockups/order', function () {
-	return view('orders/show');
+	return view('mockups/show');
 });
 
 Route::get('/concerts/{id}', 'ConcertsController@show');
