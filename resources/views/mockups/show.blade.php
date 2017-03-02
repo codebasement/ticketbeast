@@ -22,12 +22,12 @@
                     <div class="card m-xs-b-5">
                         <div class="card-section p-xs-y-3 flex-baseline flex-spaced text-light bg-gray">
                             <div>
-                                <h1 class="text-xl wt-normal">No Warning</h1>
-                                <p class="text-light-muted">with Cruel Hand and Backtrack</p>
+                                <h1 class="text-dark wt-normal">No Warning</h1>
+                                <p class="text-dark-muted">with Cruel Hand and Backtrack</p>
                             </div>
-                            <div class="text-right">
+                            <div class="text-right text-dark-muted">
                                 <strong>General Admission</strong>
-                                <p class="text-light-soft">Admit one</p>
+                                <p class="text-dark-muted">Admit one</p>
                             </div>
                         </div>
                         <div class="card-section border-b">
