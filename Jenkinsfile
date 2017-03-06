@@ -11,12 +11,9 @@ node('master') {
         sh "./dev composer install"
 
         // Create .env file for testing
-        sh 'cp .env.example .env'
+        sh '/var/lib/jenkins/.venv/bin/aws s3 cp s3://ticketbeast-secrets/env-ci .env'
         sh './dev art key:generate'
-        sh 'sed -i "s/REDIS_HOST=.*/REDIS_HOST=redis/" .env'
-        sh 'sed -i "s/CACHE_DRIVER=.*/CACHE_DRIVER=redis/" .env'
-        sh 'sed -i "s/SESSION_DRIVER=.*/SESSION_DRIVER=redis/" .env'
-    }
+
     stage('test') {
         sh "APP_ENV=testing ./dev test"
     }
