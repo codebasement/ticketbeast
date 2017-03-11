@@ -7,6 +7,8 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+use Facades\App\OrderConfirmationNumber;
+
 class PurchaseTicketsTest extends TestCase
 {
 	use DatabaseMigrations;
@@ -48,7 +50,11 @@ class PurchaseTicketsTest extends TestCase
     /** @test */
     function customer_can_purchase_tickets_to_a_published_concert()
     {
+        $this->disableExceptionHandling();
+
         // Arrange - create a concert
+        OrderConfirmationNumber::shouldReceive('generate')->andReturn('ORDERCONFIRMATION1234');
+
     	$concert = factory(Concert::class)->states('published')->create(['ticket_price' => 3250])->addTickets(3);
 
         // Act - Purchase concert tickets
@@ -62,6 +68,7 @@ class PurchaseTicketsTest extends TestCase
         $this->assertResponseStatus(201);   // http response for created
         
         $this->seeJsonSubset([
+            'confirmation_number' => 'ORDERCONFIRMATION1234',
             'email' => 'john.feature@example.com',
             'ticket_quantity' => 3,
             'amount' => 9750,
