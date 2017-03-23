@@ -8,6 +8,6 @@ class OrderConfirmationNumber
 	{
         $pool = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
 
-        return substr(str_shuffle(str_repeat($pool, 16)), 0, 16);
+        return substr(str_shuffle(str_repeat($pool, 24)), 0, 24);
 	}
 }

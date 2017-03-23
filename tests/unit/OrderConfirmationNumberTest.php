@@ -21,11 +21,11 @@ class OrderConfirmationNumberTest extends TestCase
 	// Must be unique
 
 	/** @test */
-	function confirmation_numbers_must_be_16_characters_long()
+	function confirmation_numbers_must_be_24_characters_long()
 	{
 	    $confirmationNumber = (new OrderConfirmationNumber)->generate();
 
-	    $this->assertEquals(16, strlen($confirmationNumber));
+	    $this->assertEquals(24, strlen($confirmationNumber));
 	}
 
 	/** @test */
