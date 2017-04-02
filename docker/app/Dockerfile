@@ -30,8 +30,17 @@ COPY default /etc/nginx/sites-available/default
 
 COPY php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
 
+COPY xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
+
 EXPOSE 80
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY start-container /usr/local/bin/start-container
 
-CMD ["/usr/bin/supervisord"]
+CMD ["start-container"]
+
+COPY packaged /var/www/html
+RUN chown -R www-data: /var/www/html
+
+COPY packaged /var/www/html
+RUN chown -R www-data: /var/www/html

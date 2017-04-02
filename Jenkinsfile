@@ -19,6 +19,13 @@ node('master') {
         stage('test') {
             sh "APP_ENV=testing ./dev test"
         }
+
+        if( env.BRANCH_NAME == 'master') {
+            stage('package') {
+                sh './docker/build'
+            }
+        }
+
     } catch(error) {
       // Maybe some alerting
       throw error
