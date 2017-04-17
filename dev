@@ -84,7 +84,7 @@ if [ $# -gt 0 ];then
         $COMPOSE run --rm $TTY\
             -w /var/www/html \
             node \
-            ./node_modules/.bin/gulp "$@"
+            ./node_modules/bin/gulp "$@"
     else
         $COMPOSE "$@"
     fi
