@@ -226,5 +226,5 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
-
+    'ticket_code_salt' => env('TICKET_CODE_SALT'),
 ];

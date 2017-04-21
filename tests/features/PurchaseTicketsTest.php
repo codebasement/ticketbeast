@@ -1,13 +1,13 @@
 <?php
 
 use App\Concert;
+use App\Facades\TicketCode;
 use App\Billing\PaymentGateway;
 use App\Billing\FakePaymentGateway;
+use Facades\App\OrderConfirmationNumber;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-
-use Facades\App\OrderConfirmationNumber;
 
 class PurchaseTicketsTest extends TestCase
 {
@@ -54,6 +54,7 @@ class PurchaseTicketsTest extends TestCase
 
         // Arrange - create a concert
         OrderConfirmationNumber::shouldReceive('generate')->andReturn('ORDERCONFIRMATION1234');
+        TicketCode::shouldReceive('generateFor')->andReturn('TICKETCODE1', 'TICKETCODE2', 'TICKETCODE3');
 
     	$concert = factory(Concert::class)->states('published')->create(['ticket_price' => 3250])->addTickets(3);
 
