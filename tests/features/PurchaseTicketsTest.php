@@ -4,6 +4,8 @@ use App\Concert;
 use App\Facades\TicketCode;
 use App\Billing\PaymentGateway;
 use App\Billing\FakePaymentGateway;
+use App\Mail\OrderConfirmationEmail;
+use Illuminate\Support\Facades\Mail;
 use Facades\App\OrderConfirmationNumber;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -52,6 +54,9 @@ class PurchaseTicketsTest extends TestCase
     {
         $this->disableExceptionHandling();
 
+        // Tell IoC Container to fake the sending of mails
+        Mail::fake();
+
         // Arrange - create a concert
         OrderConfirmationNumber::shouldReceive('generate')->andReturn('ORDERCONFIRMATION1234');
         TicketCode::shouldReceive('generateFor')->andReturn('TICKETCODE1', 'TICKETCODE2', 'TICKETCODE3');
@@ -81,7 +86,14 @@ class PurchaseTicketsTest extends TestCase
         //	- Make sure the customer was charged the correct amount
         $this->assertEquals(9750, $this->paymentGateway->totalCharges());
         $this->assertTrue($concert->hasOrderFor('john.feature@example.com'));
-        $this->assertEquals(3, $concert->ordersFor('john.feature@example.com')->first()->ticketQuantity());
+
+        $order = $concert->ordersFor('john.feature@example.com')->first();
+        $this->assertEquals(3, $order->ticketQuantity());
+
+        Mail::assertSent(OrderConfirmationEmail::class, function ($mail) use ($order) {
+            return $mail->hasTo('john.feature@example.com')
+                && $mail->order->id == $order->id;
+        });
     }
 
     /** @test */
