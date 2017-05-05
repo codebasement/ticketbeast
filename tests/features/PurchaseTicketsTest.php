@@ -20,6 +20,8 @@ class PurchaseTicketsTest extends TestCase
         parent::setUp();
         $this->paymentGateway = new FakePaymentGateway;
         $this->app->instance(PaymentGateway::class, $this->paymentGateway);  // Tell the container to bind to the fake gateway
+        // Tell IoC Container to fake the sending of mails
+        Mail::fake();
     }
 
     private function orderTickets($concert, $params)
@@ -53,9 +55,6 @@ class PurchaseTicketsTest extends TestCase
     function customer_can_purchase_tickets_to_a_published_concert()
     {
         $this->disableExceptionHandling();
-
-        // Tell IoC Container to fake the sending of mails
-        Mail::fake();
 
         // Arrange - create a concert
         OrderConfirmationNumber::shouldReceive('generate')->andReturn('ORDERCONFIRMATION1234');
