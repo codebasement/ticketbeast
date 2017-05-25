@@ -1,6 +1,9 @@
 <?php
 
+namespace Tests\Unit;
+
 use App\Ticket;
+use Tests\TestCase;
 use App\HashidsTicketCodeGenerator;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;

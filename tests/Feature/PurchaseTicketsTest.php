@@ -1,6 +1,9 @@
 <?php
 
+namespace Tests\Feature;
+
 use App\Concert;
+use Tests\TestCase;
 use App\Facades\TicketCode;
 use App\Billing\PaymentGateway;
 use App\Billing\FakePaymentGateway;

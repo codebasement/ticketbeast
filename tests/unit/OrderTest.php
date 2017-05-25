@@ -1,8 +1,12 @@
 <?php
 
+namespace Tests\Unit;
+
+use Mockery;
 use App\Order;
 use App\Ticket;
 use App\Concert;
+use Tests\TestCase;
 use App\Reservation;
 use App\Billing\Charge;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
