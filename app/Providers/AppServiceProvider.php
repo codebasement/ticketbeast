@@ -6,6 +6,7 @@ use App\TicketCodeGenerator;
 use App\Billing\PaymentGateway;
 use App\HashidsTicketCodeGenerator;
 use App\Billing\StripePaymentGateway;
+use Laravel\Dusk\DuskServiceProvider;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,6 +28,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+
+        if ($this->app->environment('local', 'testing')) {
+            $this->app->register(DuskServiceProvider::class);
+        }
+        
         $this->app->bind(StripePaymentGateway::class, function () {
             return new StripePaymentGateway(config('services.stripe.secret'));
         });

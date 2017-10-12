@@ -21,6 +21,12 @@ services:
       MYSQL_DATABASE: "${DB_NAME}"
       MYSQL_USER: "${DB_USER}"
       MYSQL_PASSWORD: "${DB_PASS}"
+  chrome:
+    extends:
+      file: docker-compose.base.yml
+      service: chrome
+    # ports:
+     # - "${APP_PORT}:80"
   redis:
     extends:
       file: docker-compose.base.yml

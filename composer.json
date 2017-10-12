@@ -6,8 +6,10 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
+        "barryvdh/laravel-debugbar": "dev-master",
         "guzzlehttp/guzzle": "^6.2",
         "hashids/hashids": "^2.0",
+        "laravel/dusk": "^1.1",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "^1.0",
         "predis/predis": "^1.1",
@@ -30,9 +32,9 @@
         }
     },
     "autoload-dev": {
-        "classmap": [
-            "tests"
-        ]
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     },
     "scripts": {
         "post-root-package-install": [

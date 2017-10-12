@@ -24,6 +24,12 @@ services:
      - mysqldata:/var/lib/mysql
     networks:
      - tbnet
+  chrome:
+    image: selenium/standalone-chrome
+    volumes:
+     - .:/var/www/html
+    networks:
+     - tbnet
   redis:
     image: redis:alpine
     volumes:
