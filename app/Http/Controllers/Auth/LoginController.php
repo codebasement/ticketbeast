@@ -22,4 +22,10 @@ class LoginController extends Controller
         }
         return redirect('/backstage/concerts');
     }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/login');
+    }
 }

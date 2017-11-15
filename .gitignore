@@ -9,5 +9,6 @@
 Homestead.json
 Homestead.yaml
 .env
+.env.dusk.local
 docker/app/packaged/*
 !docker/app/packaged/.gitkeep
