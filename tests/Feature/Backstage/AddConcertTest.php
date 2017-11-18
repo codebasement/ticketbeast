@@ -12,6 +12,12 @@ class AddConcertTest extends TestCase
 {
     use DatabaseMigrations;
 
+    private function from($url)
+    {
+    	session()->setPreviousUrl(url($url));
+    	return $this;
+    }
+
     /** @test */
     function promoters_can_view_the_add_concert_form()
     {
@@ -93,5 +99,31 @@ class AddConcertTest extends TestCase
         $response->assertRedirect('/login');
         $this->assertEquals(0, Concert::count());
 
+    }
+
+    /** @test */
+    function title_is_required()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->from('/backstage/concerts/new')->post('/backstage/concerts', [
+        	'title' => '',
+        	'subtitle' => 'with Cruel Hand and Backtrack but no Title',
+        	'additional_information' => "You must have a tile",
+        	'date' => '2017-11-18',
+        	'time' => '8:00pm',
+        	'venue' => 'The Mosh Pit',
+        	'venue_address' => '123 Fake St',
+        	'city' => 'Laraville',
+        	'state' => 'ON',
+        	'zip' => '12345',
+        	'ticket_price' => '32.50',
+        	'ticket_quantity' => '60',
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/backstage/concerts/new');
+        $response->assertSessionHasErrors('title');
+        $this->assertEquals(0, Concert::count());
     }
 }
