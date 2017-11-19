@@ -77,7 +77,7 @@ class PromoterLoginTest extends TestCase
     {
         Auth::login(factory(User::class)->create());
 
-        $response->$this->post('/logout');
+        $response = $this->post('/logout');
 
         $response->assertRedirect('/login');
         $this->assertFalse(Auth::check());
