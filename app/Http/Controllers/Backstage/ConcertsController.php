@@ -55,4 +55,40 @@ class ConcertsController extends Controller
 
 		return redirect()->route('concerts.show', $concert);
 	}
+
+	public function edit($id)
+	{
+		$concert = Auth::user()->concerts()->findOrFail($id);
+
+		abort_if($concert->isPublished(), 403);
+
+		return view('backstage.concerts.edit', [
+			'concert' => $concert,
+		]);
+	}
+
+	public function update($id)
+	{
+		$concert = Auth::user()->concerts()->findOrFail($id);
+
+		abort_if($concert->isPublished(), 403);
+
+		$concert->update([
+			'title' => request('title'),
+			'subtitle' => request('subtitle'),
+			'date' => Carbon::parse(vsprintf('%s %s', [
+				request('date'),
+				request('time'),
+			])),
+			'ticket_price' => request('ticket_price') * 100,
+			'venue' => request('venue'),
+			'venue_address' => request('venue_address'),
+			'city' => request('city'),
+			'state' => request('state'),
+			'zip' => request('zip'),
+			'additional_information' => request('additional_information'),
+		]);
+
+		return redirect()->route('backstage.concerts.index');
+	}
 }
