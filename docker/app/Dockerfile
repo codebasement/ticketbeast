@@ -12,9 +12,9 @@ RUN apt-get update \
 	&& apt-get install -y nginx curl zip unzip git software-properties-common supervisor sqlite3 \
 	&& add-apt-repository -y ppa:ondrej/php \
 	&& apt-get update \
-	&& apt-get install -y php7.0-fpm php7.0-cli php7.0-mcrypt php7.0-gd php7.0-mysql \
-       php7.0-pgsql php7.0-imap php-memcached php7.0-mbstring php7.0-xml php7.0-curl \
-       php7.0-sqlite3 php7.0-xdebug php7.0-bcmath \
+	&& apt-get install -y php7.1-fpm php7.1-cli php7.1-mcrypt php7.1-gd php7.1-mysql \
+       php7.1-pgsql php7.1-imap php-memcached php7.1-mbstring php7.1-xml php7.1-curl \
+       php7.1-sqlite3 php7.1-xdebug php7.1-bcmath \
     && php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer \
     && mkdir /run/php \
     && apt-get remove -y --purge software-properties-common \
@@ -28,9 +28,9 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 
 COPY default /etc/nginx/sites-available/default
 
-COPY php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
+COPY php-fpm.conf /etc/php/7.1/fpm/php-fpm.conf
 
-COPY xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
+COPY xdebug.ini /etc/php/7.1/mods-available/xdebug.ini
 
 EXPOSE 80
 
