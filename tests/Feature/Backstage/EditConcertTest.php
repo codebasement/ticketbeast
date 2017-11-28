@@ -253,6 +253,7 @@ class EditConcertTest extends TestCase
 			$this->assertEquals('Old state', $concert->state);
 			$this->assertEquals('00000', $concert->zip);
 			$this->assertEquals('30000', $concert->ticket_price);
+			$this->assertEquals('25', $concert->ticket_quantity);
 		});
 	}
 
