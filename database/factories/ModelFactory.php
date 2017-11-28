@@ -32,14 +32,15 @@ $factory->define(App\Concert::class, function (Faker\Generator $faker) {
         },
 		'title' => 'Unit Test Band',
         'subtitle' => 'with The Unit Support Solo',
+        'additional_information' => 'For all unit tests, call (555) 555-5555.',
         'date' => Carbon::parse('+2 weeks'),
-        'ticket_price' => 30000,
         'venue' => 'The Test Pit',
         'venue_address' => '123 Example Lane',
         'city' => 'Unitville',
         'state' => 'ON',
         'zip' => '90210',
-        'additional_information' => 'For all unit tests, call (555) 555-5555.',
+        'ticket_price' => 30000,
+        'ticket_quantity' => 5,
 	];
 });
 

@@ -79,6 +79,7 @@ class ConcertsController extends Controller
 			'state' => ['required'],
 			'zip' => ['required'],
 			'ticket_price' => ['required', 'numeric', 'min:5'],
+			'ticket_quantity' => ['required', 'integer', 'min:1'],
 		]);
 
 		$concert = Auth::user()->concerts()->findOrFail($id);
@@ -88,17 +89,18 @@ class ConcertsController extends Controller
 		$concert->update([
 			'title' => request('title'),
 			'subtitle' => request('subtitle'),
+			'additional_information' => request('additional_information'),
 			'date' => Carbon::parse(vsprintf('%s %s', [
 				request('date'),
 				request('time'),
 			])),
-			'ticket_price' => request('ticket_price') * 100,
 			'venue' => request('venue'),
 			'venue_address' => request('venue_address'),
 			'city' => request('city'),
 			'state' => request('state'),
 			'zip' => request('zip'),
-			'additional_information' => request('additional_information'),
+			'ticket_price' => request('ticket_price') * 100,
+			'ticket_quantity' => request('ticket_quantity'),
 		]);
 
 		return redirect()->route('backstage.concerts.index');
