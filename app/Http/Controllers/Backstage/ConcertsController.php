@@ -69,6 +69,18 @@ class ConcertsController extends Controller
 
 	public function update($id)
 	{
+		$this->validate(request(), [
+			'title' => ['required'],
+			'date' => ['required', 'date'],
+			'time' => ['required', 'date_format:g:ia'],
+			'venue' => ['required'],
+			'venue_address' => ['required'],
+			'city' => ['required'],
+			'state' => ['required'],
+			'zip' => ['required'],
+			'ticket_price' => ['required', 'numeric', 'min:5'],
+		]);
+
 		$concert = Auth::user()->concerts()->findOrFail($id);
 
 		abort_if($concert->isPublished(), 403);
