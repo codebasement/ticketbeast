@@ -63,7 +63,16 @@ class PurchaseTicketsTest extends TestCase
         OrderConfirmationNumber::shouldReceive('generate')->andReturn('ORDERCONFIRMATION1234');
         TicketCode::shouldReceive('generateFor')->andReturn('TICKETCODE1', 'TICKETCODE2', 'TICKETCODE3');
 
-    	$concert = factory(Concert::class)->states('published')->create(['ticket_price' => 3250])->addTickets(3);
+    	// $concert = factory(Concert::class)->create([
+     //        'ticket_price' => 3250,
+     //        'ticket_quantity' => 3,
+     //    ]);
+     //    $concert->publish();
+
+        $concert = \ConcertFactory::createPublished([
+            'ticket_price' => 3250,
+            'ticket_quantity' => 3,
+        ]);
 
         // Act - Purchase concert tickets
     	$this->orderTickets($concert, [
